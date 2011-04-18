@@ -2,4 +2,4 @@
 require File.expand_path('../application', __FILE__)
 
 # Initialize the rails application
-ProblemSet4::Application.initialize!
+ProbSet3::Application.initialize!

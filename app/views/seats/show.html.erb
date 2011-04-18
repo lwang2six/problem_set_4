@@ -1,0 +1,32 @@
+<% if @seat.user %>
+  <p>
+    <strong>User:</strong>
+    <%= link_to "#{@seat.user.email}", user_path(@seat.user) %>
+  </p>
+  <p>
+    <strong>Position:</strong>
+    <%= @seat.place %>
+  </p>
+  <br/>
+  <% if not @seat.claimed_by? current_user %>
+  <%= link_to "Chat with #{@seat.user.email}", new_chat_path(:id => @seat.user.id)%> | 
+  <% end %>
+  <%= link_to 'Back to Seating Chart', seats_path %>
+<% else %>
+  <p>
+    <strong>User:</strong>
+    <em>This seat is open!!</em>
+  </p>
+  <p>
+    <strong>Position:</strong>
+    <%= @seat.place %>
+  </p>
+  
+  <% if current_user %>
+    <%= render "form" %>
+  <% else %>
+    <br/>
+    <%= link_to 'Back to Seating Chart', seats_path %>
+  <% end %>
+  <br/>
+<% end %>
