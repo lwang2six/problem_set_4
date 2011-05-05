@@ -1,4 +1,4 @@
-<%= form_for([@chat, @message]) do |f| %>
+<%= form_for ([@chat, @message], :remote => true) do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
@@ -16,6 +16,6 @@
     <%= f.text_area :msg %>
   </div>
   <div class="actions">
-    <%= submit_or_cancel(f, "Sent Message", "Back") %>
+    <%= f.submit "submit" %>
   </div>
 <% end %>

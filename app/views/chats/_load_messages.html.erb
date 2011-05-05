@@ -1,0 +1,4 @@
+<% @messages.each do |message| %>
+ <p><%= content_tag(:span, message.user.email, :id => "person" ) %>: <%= content_tag(:span, message.msg, :id => "message") %></p>
+<% end %>
+

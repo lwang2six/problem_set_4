@@ -31,22 +31,39 @@ class SeatsController < ApplicationController
         format.html { redirect_to(seats_path,  :notice => 'Seat does not exist in class, sorry') }
       else
         format.html # show.html.erb
+        format.js
         format.xml  { render :xml => @seat }
       end
     end
   end
-
+  # PUT /seats/1
+  # PUT /seats/1.xml
+  def update2
+    @seat = Seat.find_by_position(params[:id])
+    @user = current_user
+    @old_seat = @user.seat
+    respond_to do |format|
+        if @seat.user.nil?
+          @user.seat = @seat
+          format.html { redirect_to seats_path, :notice => 'Seat was successfully updated.' }
+          format.js
+          format.xml
+        else
+          format.html { redirect_to(seats_path, :notice => 'Seat is already taken!') } 
+          format.js      
+        end
+    end
+  end
   # PUT /seats/1
   # PUT /seats/1.xml
   def update
     @seat = Seat.find_by_position(params[:id])
     @user = current_user
-    old_seat = 
     respond_to do |format|
         if @seat.user.nil?
           @user.seat = @seat
-          format.html { redirect_to(@seat, :notice => 'Seat was successfully updated.') }
-          format.xml  { head :ok }
+          format.html { redirect_to seats_url, :notice => 'Seat was successfully updated.' }
+          format.js
         else
           format.html { redirect_to(seats_path, :notice => 'Seat is already taken!') }        
         end

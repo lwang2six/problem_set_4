@@ -1,40 +1,70 @@
+<style>
+.head {
+  padding: 12px 0 8px 26px;
+}
+
+#chats {
+  padding: 0 0 20px 6px;
+}
+
+#hidden_bar {
+  padding: 5px 0 20px 0;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+<script language="JavaScript">
+$(document).ready(
+  function(){
+    setInterval(function(){
+      $('#chats').load("<%= url_for :action => :load_chats %>");
+    }, 2000);
+  });
+</script>
+
 <h1>List of your on going chats</h1>
 <% if @chats.count > 0 %>
-<p>
-<table>
-  <tr>
-    <th>Chats</th>
-    <th></th>
-    <th></th>
-  </tr>
+  <h2 class="head">Chats</h2>
+  <div id="chats">
+    <% @chats.each do |chat| %>
+      <%= div_for chat do %>
+        <tr>
+          <td><%= link_to "#{chat.time}", chat_path(chat) %></td>
+          <td>
+            with 
+            <% chat.users.each do |u| %>
+              <% if u != current_user %><%= u.email %><% end %>
+            <% end %> 
+          </td>
+          <td><%= link_to 'Delete', chat, :confirm => 'Are you sure?', :method => :delete, :remote => true %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
 
-<% @chats.each do |chat| %>
-  <tr>
-    <td><%= link_to "#{chat.time}", chat_path(chat) %></td>
-    <td>
-      with 
-        <% chat.users.each do |u| %>
-          <% if u != current_user %><%= u.email %><% end %>
-        <% end %>  
-    </td>
-    <td><%= link_to 'Delete', chat, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-</p>
-<br/>
-<% end %>
-<p>
-  <% if @users.count > 1 %>
+<div id="people">
+  <% if @users.count > 0 %>
     <h3>Select users to chat with</h3>
     <ul>
       <% @users.each do |user| %>
-        <li><%= link_to "#{user.email}", new_chat_path(:id => user.id)%></li>
+        <li><%= link_to "#{user.email}", new_chat_path(:id => user.id, :format => :js), :remote => true %></li>
       <% end %>
     </ul>
   <% else %>
    <h3>Sorry you dont have anyone to chat with but yourself!!! =[</h3>
   <% end %>
   <br />
-</p>
-<%= link_to 'New Chat', new_chat_path %>
+</div>
+
+<div id="new_chat">
+  <%= link_to 'New Chat', new_chat_path(:format => :js), 
+      :remote => true, :id => "new_chat_link" %>
+</div>
+<div id="hidden_bar" class="hidden">
+<hr/>
+</div>
+<div id="new_chat_form">
+</div>

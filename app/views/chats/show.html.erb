@@ -1,6 +1,12 @@
-<header>
-<meta http-equiv="refresh" content="300">
-</header>
+<script language="JavaScript">
+$(document).ready(
+  function(){
+    setInterval(function(){
+      $('#messages').load("<%= url_for :action=> :load_messages %>");
+    }, 2000);
+  });
+</script>
+
 Available chat users:
 <ul>
 <% @chat.users.each do |user| %>
@@ -8,12 +14,15 @@ Available chat users:
 <% end %>
 <p>
 </ul>
-<h1>Messages</h1>
-<% @chat.messages.each do |message| %>
- <p><%= message.user.email %>: <%= message.msg %></p>
-<% end %>
-</p>
+<div id="messages">
+ <%= render @message %>
+</div>
+<div id="message_form">
 <p>
 <hr/>
-<%= render 'form2' %>
+<!--%= render 'form2' %-->
+<%= link_to "new message", 
+    new_chat_message_url(@chat, :format => :js),
+    :remote => true, :id => "new_message_link" %>
 </p>
+</div>

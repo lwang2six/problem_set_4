@@ -1,5 +1,19 @@
 class ChatsController < ApplicationController
   before_filter :authenticate
+
+  def load_chats
+    @chats = current_user.chats
+
+    render :partial => "load_chats"
+  end
+
+  def load_messages
+    @chat = current_user.chats.find(params[:id])
+    @messages = @chat.messages.all
+
+    render :partial => "load_messages"
+  end
+
   # GET /chats
   # GET /chats.xml
   def index
@@ -18,7 +32,7 @@ class ChatsController < ApplicationController
   # GET /chats/1.xml
   def show
     @chat = current_user.chats.find(params[:id])
-    @messages = Message.find_all_by_chat_id(@chat)
+    @messages = @chat.messages.all
     @message = Message.new
     @user = current_user
     if session[:message_error]
@@ -27,7 +41,8 @@ class ChatsController < ApplicationController
     end
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @chat }
+      format.js
+      #format.xml  { render :xml => @chat }
     end
   end
 
@@ -45,6 +60,7 @@ class ChatsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @chat }
+      format.js
     end
   end
 
@@ -96,8 +112,10 @@ class ChatsController < ApplicationController
       @chat.destroy
     end
     respond_to do |format|
-      format.html { redirect_to(chats_url) }
-      format.xml  { head :ok }
+      format.html { redirect_to chats_url, :notice => 'comment deleted' }
+      format.js
+
+
     end
   end
 end

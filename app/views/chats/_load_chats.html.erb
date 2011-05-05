@@ -1,0 +1,14 @@
+    <% @chats.each do |chat| %>
+      <%= div_for chat do %>
+        <tr>
+          <td><%= link_to "#{chat.time}", chat_path(chat) %></td>
+          <td>
+            with 
+            <% chat.users.each do |u| %>
+              <% if u != current_user %><%= u.email %><% end %>
+            <% end %> 
+          </td>
+          <td><%= link_to 'Delete', chat, :confirm => 'Are you sure?', :method => :delete, :remote => true %></td>
+        </tr>
+      <% end %>
+    <% end %>

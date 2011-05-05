@@ -2,28 +2,20 @@ class MessagesController < ApplicationController
   before_filter :authenticate
 
 =begin
+  # GET /messages/1/edit
+  def edit
+    @message = Message.find(params[:id])
+  end
+=end
   # GET /messages
   # GET /messages.xml
   def index
-    @messages = Message.all
     @chat = Chat.find(params[:chat_id])
+    @messages = @chat.messages.all
     @user = current_user
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {redirect_to( chat_url(@chat))}
       format.xml  { render :xml => @messages }
-    end
-  end
-
-  # GET /messages/1
-  # GET /messages/1.xml
-  def show
-    @user = current_user
-    @chat = Chat.find(params[:chat_id])
-    @message = Message.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @message }
     end
   end
 
@@ -35,15 +27,10 @@ class MessagesController < ApplicationController
     @user = current_user
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @message }
+      format.js
     end
   end
 
-  # GET /messages/1/edit
-  def edit
-    @message = Message.find(params[:id])
-  end
-=end
   # POST /messages
   # POST /messages.xml
   def create
@@ -58,6 +45,8 @@ class MessagesController < ApplicationController
           @chat.users << @user
         end
         format.html { redirect_to(chat_path(@chat.id), :notice => 'Message was successfully created.') }
+        format.xml
+        format.js
       else
         session[:message_error] = "cannot be empty"
         format.html { redirect_to(chat_path(@chat)) }
