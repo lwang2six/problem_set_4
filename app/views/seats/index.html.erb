@@ -10,7 +10,7 @@ Front of class
         <% if j == 4%><td></td><% end %>
         <% if not @user.nil? %>
           <% if @seats[i*7+j+i].user.nil? %>
-            <td><%= link_to "Empty Seat", upseat_url(@seats[i*7+j+i], :format => :js), :confirm => 'Are you Sure?', :remote => true, :id => "seat_#{i*7+j+i+1}" %> </td>
+            <td><%= link_to "Empty Seat", upseat_url(@seats[i*7+j+i], :format => :js), :confirm => 'Take seat?', :remote => true, :id => "seat_#{i*7+j+i+1}" %> </td>
           <%else %>
             <td><%= link_to "#{@seats[i*7+j+i].user.email}", @seats[i*7+j+i], :id => "seat_#{i*7+j+i+1}" %> </td>
           <% end %>

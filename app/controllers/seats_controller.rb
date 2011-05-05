@@ -4,6 +4,7 @@ class SeatsController < ApplicationController
   # GET /seats
   # GET /seats.xml
   def index
+    @user = current_user
     @seats = Seat.order("position").all
     if @seats.count == 0
       for i in 1..32
@@ -41,6 +42,7 @@ class SeatsController < ApplicationController
   def update2
     @seat = Seat.find_by_position(params[:id])
     @user = current_user
+    
     @old_seat = @user.seat
     respond_to do |format|
         if @seat.user.nil?
