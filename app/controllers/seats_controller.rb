@@ -1,5 +1,11 @@
 class SeatsController < ApplicationController
   before_filter :authenticate, :except => [:show, :index]
+ 
+  def load_seats
+    @user = current_user
+    @seats = Seat.order("position").all
+    render :partial => "seat"
+  end
 
   # GET /seats
   # GET /seats.xml

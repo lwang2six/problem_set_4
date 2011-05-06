@@ -4,6 +4,8 @@ ProbSet3::Application.routes.draw do
 
   resources :users
 
+
+  match '/seats/load_seats' => "seats#load_seats"
   match '/seats/:id/update' => "seats#update2", :as => "upseat"
   match '/chats/load_chats' => "chats#load_chats"
 

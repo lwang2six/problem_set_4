@@ -1,4 +1,9 @@
-$("#<%= dom_id(@seat) %>").replaceWith('<%= link_to  "#{@seat.user.email}", @seat, :id => dom_id(@seat) %>');
-<% if not @old_seat.nil? %>
-$("#<%= dom_id(@old_seat) %>").replaceWith('<%= link_to "Empty Seat", upseat_url(@old_seat, :format => :js), :confirm => "Are you Sure?", :remote => true, :id => dom_id(@old_seat) %>');
-<% end %>
+$('#seat_table').load("<%= url_for :action => :load_seats %>");
+
+
+
+
+
+
+
+
