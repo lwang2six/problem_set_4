@@ -2,8 +2,8 @@
 $(document).ready(
   function(){
     setInterval(function(){
-      $('#seat_table').load("<%= url_for :action => :load_seats %>");
-    }, 10000);
+      $('#seat_table').load("/seats/load_seats");
+    }, 8000);
   });
 </script>
 <h1 class="center">Seating Chart</h1>
