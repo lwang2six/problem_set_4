@@ -1,3 +1,4 @@
+<% if not @user.nil? %>
 <script language="JavaScript">
 $(document).ready(
   function(){
@@ -6,6 +7,7 @@ $(document).ready(
     }, 8000);
   });
 </script>
+<% end %>
 <h1 class="center">Seating Chart</h1>
 <% if @seats %>
 <div class="seat" id="seat">
